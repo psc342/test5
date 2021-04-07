@@ -47,7 +47,6 @@ int print_p(unsigned long long d, options *opt_list)
 		opt_list->zero = 0;
 	if (opt_list->minus == 1 && opt_list->zero == 1)
 		opt_list->zero = 0;
-
     print_size = print_p_minus(d, opt_list);
 
     return (print_size);
@@ -61,10 +60,20 @@ int print_p_minus(unsigned long long d, options *opt_list)
     print_size = 0;
 	if (opt_list->dot == 1 && opt_list->precision == 0)
 	{
-		print_size--;
-        wid_len = opt_list->width - p_hexlen(d) + 1;
+		if (opt_list->precision > p_hexlen(d))
+            wid_len = opt_list->width - opt_list->precision;
+        else
+            wid_len = opt_list->width - p_hexlen(d);
         if (opt_list->precision >= p_hexlen(d) && d < 0)
             wid_len--;
+        if (d == 0)
+            wid_len++;
+        if (d == 0)
+            print_size--;
+        if (opt_list->minus == 1)
+            write(1, "0x", 2);
+        if (d != 0 && opt_list->minus == 1)
+            ptohex(d);
         while(wid_len > 0)
         {
             if (opt_list->zero == 1)
@@ -73,12 +82,15 @@ int print_p_minus(unsigned long long d, options *opt_list)
 				print_size = print_size + ft_putchar(' ');
 			wid_len--;
         }
-        while ((opt_list->precision - ft_intlen(d)) > 0)
+        while ((opt_list->precision - p_hexlen(d)) > 0)
         {
             print_size = print_size + ft_putchar('0');
             opt_list->precision--;
         }
-		write(1, "0x", 2);
+        if (opt_list->minus == 0)
+		    write(1, "0x", 2);
+        if (d != 0 && opt_list->minus == 0)
+            ptohex(d);
 	}
     else if(opt_list->minus == 0 && (opt_list->dot == 0 || opt_list->precision < 0))
     {
