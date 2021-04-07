@@ -1,46 +1,6 @@
 #include "ft_printf.h"
 
-int p_hexlen(unsigned long long a)
-{
-	int len;
-
-	len = 1;
-	while(a >= 16)
-	{
-		a = a / 16;
-		len++;
-	}
-	len = len + 2;
-
-	return len;
-}
-
-int ptohex(unsigned long long a)
-{
-	char *set = "0123456789abcdef";
-	char tmp;
-	int print_size;
-
-	print_size = p_hexlen(a);
-	while (a >= 16)
-	{
-		if (a >= 16)
-		{
-			ptohex(a/16);
-			a = a%16;
-		}
-		else
-		{
-			tmp = set[a / 16];
-			write(1, &tmp, 1);
-		}
-	}
-	write(1, &set[a], 1);
-
-	return print_size;
-}
-
-int print_p(unsigned long long d, options *opt_list)
+int print_p(unsigned long long d, t_info *opt_list)
 {
     int print_size;
 	if (opt_list->zero == 1 && opt_list->dot == 1)
@@ -52,7 +12,7 @@ int print_p(unsigned long long d, options *opt_list)
     return (print_size);
 }
 
-int print_p_minus(unsigned long long d, options *opt_list)
+int print_p_minus(unsigned long long d, t_info *opt_list)
 {
     int print_size;
     int wid_len;

@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-int print_d_i(int d, options *opt_list)
+int print_d_i(int d, t_info *opt_list)
 {
     int print_size;
 
@@ -13,7 +13,7 @@ int print_d_i(int d, options *opt_list)
     return (print_size);
 }
 
-int print_d_i_minus(int d, options *opt_list)
+int print_d_i_minus(int d, t_info *opt_list)
 {
     int print_size;
     int wid_len;

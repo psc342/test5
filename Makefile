@@ -8,7 +8,8 @@ SRCS = ft_printf.c \
 	   print_u.c \
 	   print_x.c \
 	   print_per.c \
-	   utils.c 
+	   utils_1.c \
+	   utils_2.c
 
 LIBFT = libft
 

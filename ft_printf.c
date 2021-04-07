@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sangchpa <sangchpa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/07 20:13:51 by sangchpa          #+#    #+#             */
+/*   Updated: 2021/04/07 21:18:05 by sangchpa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include "ft_printf.h"
 
-int					print2(va_list ap, options *opt_list)
+int				print2(va_list ap, t_info *opt_list)
 {
-	int print_size;
+	int			print_size;
 
 	print_size = 0;
 	if (opt_list->type == 'c')
@@ -23,8 +35,7 @@ int					print2(va_list ap, options *opt_list)
 	return (print_size);
 }
 
-
-void wid_and_pre(va_list ap, int i, char *format, options *opt_list)
+void			wid_and_pre(va_list ap, int i, char *format, t_info *opt_list)
 {
 	if (ft_isdigit(format[i]))
 	{
@@ -46,13 +57,12 @@ void wid_and_pre(va_list ap, int i, char *format, options *opt_list)
 		}
 		else
 			opt_list->precision = va_arg(ap, int);
-			if (opt_list->precision < 0)
-				opt_list->dot =0;
+		if (opt_list->precision < 0)
+			opt_list->dot = 0;
 	}
 }
 
-
-int parsing(va_list ap, int i, char *format, options *opt_list)
+int				parsing(va_list ap, int i, char *format, t_info *opt_list)
 {
 	i++;
 	while (format[i] != '\0' && ft_strchr("dsciupxX%", format[i]) == 0)
@@ -69,22 +79,20 @@ int parsing(va_list ap, int i, char *format, options *opt_list)
 	}
 	if (ft_strchr("dsciupxX%", format[i]) != 0)
 		opt_list->type = format[i];
-	
 	return (i);
 }
 
-
-int printf1(va_list ap, char *format)
+int				printf1(va_list ap, char *format)
 {
-	int i;
-	int print_size;
-	options opt_list;
+	int			i;
+	int			print_size;
+	t_info		opt_list;
 
 	i = 0;
 	print_size = 0;
-	while(format[i] != '\0' && i >= 0)
+	while (format[i] != '\0' && i >= 0)
 	{
-		if(format[i] == '%' && format[i + 1] != '\0')
+		if (format[i] == '%' && format[i + 1] != '\0')
 		{
 			opt_init(&opt_list);
 			i = parsing(ap, i, format, &opt_list);
@@ -98,14 +106,13 @@ int printf1(va_list ap, char *format)
 	return (print_size);
 }
 
-int ft_printf(const char *format, ...)
+int				ft_printf(const char *format, ...)
 {
-	va_list ap;
-	int print_size;
+	va_list		ap;
+	int			print_size;
 
 	va_start(ap, format);
 	print_size = printf1(ap, (char *)format);
 	va_end(ap);
-
 	return (print_size);
 }

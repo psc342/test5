@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-int print_u(unsigned int d, options *opt_list)
+int print_u(unsigned int d, t_info *opt_list)
 {
     int print_size;
 	
@@ -13,7 +13,7 @@ int print_u(unsigned int d, options *opt_list)
     return (print_size);
 }
 
-int print_u_minus(unsigned int d, options *opt_list)
+int print_u_minus(unsigned int d, t_info *opt_list)
 {
     int print_size;
     int wid_len;
@@ -108,11 +108,11 @@ int print_u_minus(unsigned int d, options *opt_list)
     else if(opt_list->minus == 1 && opt_list->dot == 1 && opt_list->precision > 0)
     {
         
-        if (opt_list->precision > (int)ft_unsignedintlen(d))
+        if (opt_list->precision > ft_unsignedintlen(d))
             wid_len = opt_list->width - opt_list->precision;
         else
             wid_len = opt_list->width - ft_unsignedintlen(d);
-        if (opt_list->precision >= (int)ft_unsignedintlen(d) && d < 0)
+        if (opt_list->precision >= ft_unsignedintlen(d) && d < 0)
             wid_len--;
         while ((opt_list->precision - ft_unsignedintlen(d)) > 0)
         {
