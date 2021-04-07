@@ -66,10 +66,18 @@ int print_x_minus(unsigned int d, options *opt_list)
     print_size = 0;
 	if (opt_list->dot == 1 && opt_list->precision == 0)
 	{
-		print_size--;
-        wid_len = opt_list->width - opt_list->precision;
+        if (opt_list->precision > hexlen(d))
+            wid_len = opt_list->width - opt_list->precision;
+        else
+            wid_len = opt_list->width - hexlen(d);
         if (opt_list->precision >= hexlen(d) && d < 0)
             wid_len--;
+        if (d == 0)
+            wid_len++;
+        if (d == 0)
+            print_size--;
+        if (d != 0 && opt_list->minus == 1)
+            itohex(d, opt_list->type);
         while(wid_len > 0)
         {
             if (opt_list->zero == 1)
@@ -83,7 +91,7 @@ int print_x_minus(unsigned int d, options *opt_list)
             print_size = print_size + ft_putchar('0');
             opt_list->precision--;
         }
-        if (d != 0)
+        if (d != 0 && opt_list->minus == 0)
             itohex(d, opt_list->type);
 	}
     else if(opt_list->minus == 0 && (opt_list->dot == 0 || opt_list->precision < 0))
