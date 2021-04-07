@@ -38,6 +38,8 @@ int print_u_minus(unsigned int d, options *opt_list)
             print_size = print_size + ft_putchar('0');
             opt_list->precision--;
         }
+        if (d != 0)
+            ft_putunsigned(d);
 	}
 
     else if(opt_list->minus == 0 && (opt_list->dot == 0 || opt_list->precision < 0))
@@ -55,11 +57,11 @@ int print_u_minus(unsigned int d, options *opt_list)
     }
     else if(opt_list->minus == 0 && opt_list->dot == 1 && opt_list->precision > 0)
     {
-        if (opt_list->precision > (int)ft_unsignedintlen(d))
+        if (opt_list->precision > ft_unsignedintlen(d))
             wid_len = opt_list->width - opt_list->precision;
         else
             wid_len = opt_list->width - ft_unsignedintlen(d);
-        if (opt_list->precision >= (int)ft_unsignedintlen(d) && d < 0)
+        if (opt_list->precision >= ft_unsignedintlen(d) && d < 0)
             wid_len--;
         while(wid_len > 0)
         {

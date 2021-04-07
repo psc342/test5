@@ -83,6 +83,8 @@ int print_x_minus(unsigned int d, options *opt_list)
             print_size = print_size + ft_putchar('0');
             opt_list->precision--;
         }
+        if (d != 0)
+            itohex(d, opt_list->type);
 	}
     else if(opt_list->minus == 0 && (opt_list->dot == 0 || opt_list->precision < 0))
     {
